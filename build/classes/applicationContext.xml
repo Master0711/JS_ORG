@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
@@ -18,14 +18,14 @@
    <context:annotation-config />
    
    
-	<context:component-scan base-package="com.starnet.service" />
+	<context:component-scan base-package="com.jsorg.service" />
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
 	  <property name="driverClassName">  
 	      <value>com.mysql.jdbc.Driver</value>  
 	  </property>  
 	  <property name="url">  
-	      <value>jdbc:mysql://localhost:3306/usermg?characterEncoding=UTF-8</value>  
+	      <value>jdbc:mysql://localhost:3306/js_org?characterEncoding=UTF-8</value>  
 	
 	  </property>  
 	  <property name="username">  
@@ -38,13 +38,13 @@
 	
 	
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="typeAliasesPackage" value="com.starnet.pojo" />
+		<property name="typeAliasesPackage" value="com.jsorg.pojo" />
 		<property name="dataSource" ref="dataSource"/>
-		<property name="mapperLocations" value="classpath:com/starnet/mapper/*.xml"/>
+		<property name="mapperLocations" value="classpath:com/jsorg/mapper/*.xml"/>
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.starnet.mapper"/>
+		<property name="basePackage" value="com.jsorg.mapper"/>
 	</bean>
 	
 
