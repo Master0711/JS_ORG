@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS Association</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="../html/JavaScript/layer/layer.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="../html/JavaScript/usual.js"></script>
+    <script src="../html/JavaScript/SweetVue-1.0.0.js"></script>
+    <link rel="shortcut icon" href="../html/image/boat.png">
+    <link rel="stylesheet" type="text/css" href="../html/css/sweet.css">
+    <link rel="stylesheet" type="text/css" href="../html/css/login.css">
+    <!-- Include stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css" rel="stylesheet">
+    <!-- Include the Swiper library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/js/swiper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- Swiper JS Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue-awesome-swiper@3.1.2/dist/vue-awesome-swiper.js"></script>
+</head>
+<body style="margin: 0px;">
+    <div id="contain" style="width: 100%;height: auto;display: flex;flex-direction: column;
+        justify-content: center;align-items: center;">
+        <div style="width: 100%;height:65px;display: flex;flex-direction: column;
+            position: sticky;z-index: 1000;top: 0px;background-color: white;" v-show="show_nav">
+            <div style="width: 100%;height:65px;display: flex;justify-content: space-between;">
+                <div style="width: 50%;height: 100%;display: flex;align-items: center;margin-left: 240px;">
+                    <img src="../html/image/boat.png" style="width: 45px;height: 45px;">
+                    <p style="margin: 20px;font-size: 20px;padding-top: 20px;">JS Association</p>
+                </div>
+                <div style="width: 50%;height: 100%;display: flex;align-items: center;">
+                    <div style="width: 250px;height: 100%;display: flex;align-items: center;margin-top: 25px;">
+                        <span class="NavigationBar">
+                            <!-- <p class="NavigationBarp">活动</p> -->
+                            <a href="" class="NavigationBarp" style="color: #000;padding-bottom: 2.5px;">活动</a>
+                        </span>
+                        <span class="NavigationBar">
+                            <a href="" class="NavigationBarp" style="color: #000;padding-bottom: 2.5px;">公告</a>
+                        </span>
+                        <span class="NavigationBar">
+                            <a href="" class="NavigationBarp" style="color: #000;padding-bottom: 2.5px;">招聘信息</a>
+                        </span>
+                        <span class="NavigationBar">
+                            <a href="" class="NavigationBarp" style="color: #000;padding-bottom: 2.5px;">关于我们</a>
+                        </span>
+                    </div>
+                    <div style="margin: 0px 0px 0px 45px;">
+                        <img id="login" src="../html/image/avatar.jpg" style="width: 35px;height: 35px;" 
+                            @mousemove="setList('login')">
+                        <div id="loginchild" style="display: none;background-color: rgba(68, 68, 68, 0.452);
+                            margin: 5px 0 0 -40px;" @mousemove="setList('login')" @mouseout="outList()">
+                            <div>
+                                <button class="sbutton write button_style loginbutton" @click="loginclick()">
+                                    注册/登陆
+                                </button>
+                            </div>
+                            <div>
+                                <button class="sbutton write button_style loginbutton">
+                                    个人中心
+                                </button>
+                            </div>
+                            <div>
+                                <button class="sbutton write button_style loginbutton">
+                                    退出登陆
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 930px;height: 1px;margin: auto;background-color: black;overflow: hidden;
+            opacity: 0.2;"></div>
+        </div>
+        <div style="width: 100%;height:65px;display: flex;flex-direction: column;
+            position: sticky;z-index: 1000;top: 0px;background-color: white;" v-show="!show_nav">
+            <div style="width: 100%;height:65px;display: flex;justify-content: space-between;">
+                <div style="width: 50%;height: 100%;display: flex;align-items: center;margin-left: 40px;">
+                    <img src="../html/image/boat.png" style="width: 45px;height: 45px;">
+                    <p style="margin-left: 20px;font-size: 20px;margin-top: -10px;">JS Association</p>
+                    <p style="font-size: 10px;margin-top: 45px;margin-left: -60px;">Our Cloud home</p>
+                </div>
+                <div style="height: 100%;display: flex;align-items: center;">
+                    <div style="width: 250px;height: 100%;display: flex;align-items: center;margin-top: 25px;">
+                        <span class="NavigationBar">
+                            <p class="NavigationBarp">活动</p>
+                        </span>
+                        <span class="NavigationBar">
+                            <p class="NavigationBarp">公告</p>
+                        </span>
+                        <span class="NavigationBar">
+                            <p class="NavigationBarp">招聘信息</p>
+                        </span>
+                        <span class="NavigationBar">
+                            <p class="NavigationBarp">关于我们</p>
+                        </span>
+                    </div>
+                    <div style="margin: 0px 45px 0px 15px;">
+                        <img src="../html/image/avatar.jpg" style="width: 35px;height: 35px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width: 85%;height: 580px;background-image: url(../html/image/bg1.jpg);
+            background-repeat: no-repeat;background-size: 100% 100%;margin: 5px;">
+            <div style="width:100%;height:100%;background-color:rgba(255,255,255,0.6);display: flex;flex-direction: column;">
+                <div style="width: 100%;height: 60px;display: flex;flex-direction: row-reverse;">
+                    <img src="../html/image/message.png" style="width: 60px;height: 60px;transform: rotate(140deg);
+                        right: 100px;opacity: 0.5;margin: 15px 140px 0px 0px;">
+                    <img src="../html/image/jsorg2.png" style="width: 760px;height: 200px;transform: rotate(0deg);
+                    right: 100px;opacity: 0.8;margin-top: 150px;padding-left: 200px;">
+                </div>
+                <div style="display: flex;flex-direction: row-reverse;">
+                    <div style="width: 260px;height: 360px;background-color: rgba(73, 72, 72, 0.6);border-radius: 6%;
+                        margin: 30px 100px 0 0;position: relative;">
+                        <div style="margin: 10px;">
+                            <p class="welcomefont" style="font-size: 25px;">欢迎你来到：</p>
+                            <p class="welcomefont">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;福大晋狮云端家园</p>
+                            <p class="welcomefont">在这里</p>
+                            <p class="welcomefont">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;你可以以游客身份</p>
+                            <p class="welcomefont">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;了解我们、接触我们</p>
+                            <p class="welcomefont">如果喜欢、加入我们</p>
+                            <p class="welcomefont">已是我们的一员?</p>
+                            <p class="welcomefont" style="font-size: 18px;text-align: center;">Have fun on our website</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;margin-top: 30px;">
+                    <img src="../html/image/鼠标.png" style="height: 40px;width: 40px;opacity: 0.5;">
+                    <p style="padding-top: 10px;text-align: center;font-family: 'Arial','STKaiti','黑体','宋体',sans-serif">向下滑动查看更多...</p>
+                </div>
+            </div>
+        </div>
+        <div style="width: 85%;height: 580px;background-image: url(../html/image/bg2.jpg);
+            background-repeat: no-repeat;background-size: 100% 100%;margin: 5px;border-radius: 5% 5% 45% 5%;
+            display: flex;align-items: center;justify-content: center;flex-direction: column;">
+            <div style="width:100%;height:100%;background-color:rgba(255,255,255,0.5);
+                display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                <md-card style="width: 100%;height: 400px;">
+                    <md-card-media class="swiper-inner" style="height: 400px;">
+                        <!-- swiper -->
+                        <swiper :options="swiperOption" style="height: 400px;">
+                           <swiper-slide style="width: 300px;height: 400px;background-color: rgb(238, 238, 238 , 0.04)">
+                            <div class="active">
+                                <div style="width: 100%;height: 70px;">
+                                    <p class="activep">洛杉矶湖人夺得总冠军</p>
+                                    <p class="activep2"> 2019-04-04</p>
+                                </div>
+                                <div style="width:100%;">
+                                    <img src="../html/image/James-2.jpg" class="activeimg">
+                                </div>
+                                <div style="width: 90%;font-size: 15px;padding: 10px;" class="activep">
+                                    专业特点：技术全面，突破与组织进攻的能力强介：勒布朗·詹姆斯（LeBron James），1984年12
+                                    月30日出生于美国俄亥俄州阿克伦（Akron, Ohio），美国职业篮球运动员......
+                                </div>
+                                <div style="font-size: 15px;text-align: right;padding-right: 15px;" class="activep">了解详情click</div>
+                            </div>
+                           </swiper-slide>
+                           <swiper-slide style="width: 300px;height: 400px;background-color: rgb(238, 238, 238 , 0.04)">
+                            <div class="active">
+                                <div style="width: 100%;height: 70px;">
+                                    <p class="activep">洛杉矶湖人夺得总冠军</p>
+                                    <p class="activep2"> 2019-04-04</p>
+                                </div>
+                                <div style="width:100%;">
+                                    <img src="../html/image/James-1.jpeg" class="activeimg">
+                                </div>
+                                <div style="width: 90%;font-size: 15px;padding: 10px;" class="activep">
+                                    专业特点：技术全面，突破与组织进攻的能力强介：勒布朗·詹姆斯（LeBron James），1984年12
+                                    月30日出生于美国俄亥俄州阿克伦（Akron, Ohio），美国职业篮球运动员......
+                                </div>
+                                <div style="font-size: 15px;text-align: right;padding-right: 15px;" class="activep">了解详情click</div>
+                            </div>
+                           </swiper-slide>
+                           <swiper-slide style="width: 300px;height: 400px;background-color: rgb(238, 238, 238 , 0.04)">
+                            <div class="active">
+                                <div style="width: 100%;height: 70px;">
+                                    <p class="activep">洛杉矶湖人夺得总冠军</p>
+                                    <p class="activep2"> 2019-04-04</p>
+                                </div>
+                                <div style="width:100%;">
+                                    <img src="../html/image/James-3.jpg" class="activeimg">
+                                </div>
+                                <div style="width: 90%;font-size: 15px;padding: 10px;" class="activep">
+                                    专业特点：技术全面，突破与组织进攻的能力强介：勒布朗·詹姆斯（LeBron James），1984年12
+                                    月30日出生于美国俄亥俄州阿克伦（Akron, Ohio），美国职业篮球运动员......
+                                </div>
+                                <div style="font-size: 15px;text-align: right;padding-right: 15px;" class="activep">了解详情click</div>
+                            </div>
+                           </swiper-slide>
+                           <swiper-slide style="width: 300px;height: 400px;background-color: rgb(238, 238, 238 , 0.04)">
+                            <div class="active">
+                                <div style="width: 100%;height: 70px;">
+                                    <p class="activep">洛杉矶湖人夺得总冠军</p>
+                                    <p class="activep2"> 2019-04-04</p>
+                                </div>
+                                <div style="width:100%;">
+                                    <img src="../html/image/James-2.jpg" class="activeimg">
+                                </div>
+                                <div style="width: 90%;font-size: 15px;padding: 10px;" class="activep">
+                                    专业特点：技术全面，突破与组织进攻的能力强介：勒布朗·詹姆斯（LeBron James），1984年12
+                                    月30日出生于美国俄亥俄州阿克伦（Akron, Ohio），美国职业篮球运动员......
+                                </div>
+                                <div style="font-size: 15px;text-align: right;padding-right: 15px;" class="activep">了解详情click</div>
+                            </div>
+                           </swiper-slide>
+                           <div class="swiper-pagination" slot="pagination"></div>
+                        </swiper>
+                    </md-card-media>
+                </md-card>
+            </div>
+            <div style="display: flex;flex-direction: row-reverse;width: 100%;">
+                <div style="margin-top: -60px;text-align: right;font-size: 45px;color: red;opacity: 0.6;">activity</div>
+            </div>
+        </div>
+        <div style="width: 85%;height: 580px;margin: 5px;border-radius: 5%;">
+            <div style="width:100%;height:100%;background-color:rgba(255,255,255,0.1);display: flex;
+                flex-direction: column;align-items: center;justify-content: center;">
+                <swiper ref="awesomeSwiperA" :options="swiperOptionA" @set-translate="onSetTranslate" 
+                    style="width: 90%;height: 330px;padding-top: 30px;">
+                    <!-- slides -->
+                    <swiper-slide>
+                        <div class="swiperdiv" style="background-image: url(../html/image/active1.jpg);">
+                            <p class="swiperfont">欧冠出局后又迎三场硬仗！
+                                曼联11天或输掉一个赛季，联赛要崩了？</p>
+                            <div class="swiperfont" style="margin: 20px 0 0 20px;">
+                                <p style="color: #000;border: 1px solid rgb(0, 0, 0);">查看详情</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="swiperdiv" style="background-image: url(../html/image/active3.jpg);">
+                            <p class="swiperfont">在法国街头，离圣母院远吗？</p>
+                            <div class="swiperfont" style="margin: 20px 0 0 20px;">
+                                <p style="color: #000;border: 1px solid rgb(0, 0, 0);">查看详情</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="swiperdiv" style="background-image: url(../html/image/active4.jpg);">
+                            <p class="swiperfont">这么多乐谱，如何看得完！</p>
+                            <div class="swiperfont" style="margin: 20px 0 0 20px;">
+                                <p style="color: #000;border: 1px solid rgb(0, 0, 0);">查看详情</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="swiperdiv" style="background-image: url(../html/image/active2.jpg);">
+                            <p class="swiperfont">静谧的小镇，一起去旅行 ~</p>
+                            <div class="swiperfont" style="margin: 20px 0 0 20px;">
+                                <p style="color: #000;border: 1px solid rgb(0, 0, 0);">查看详情</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <!-- Optional controls -->
+                    <div class="swiper-pagination"  slot="pagination"></div>
+                    <div class="swiper-button-prev" slot="button-prev"></div>
+                    <div class="swiper-button-next" slot="button-next"></div>
+                </swiper>
+                <div style="width: 100%;height: 200px;background-repeat: no-repeat;background-size: 100% 100%;
+                    background-image: url(../html/image/activebg1.jpg)">
+                    
+                </div>
+            </div>
+        </div>
+        <div style="width: 85%;height: 580px;background-image: url(../html/image/bg2.jpg);
+            background-repeat: no-repeat;background-size: 100% 100%;margin: 5px;display: flex;
+            align-items: center;justify-content: center;flex-direction: column;">
+            
+        </div>
+        <div style="width: 85%;height: 1px;margin: auto;background-color: black;overflow: hidden;
+            opacity: 0.9;"></div>
+        <div style="width: 85%;height: 280px;margin: 5px;display: flex;background-color:#fff;
+            align-items: center;flex-direction: column;">
+            <div style="display: flex;">
+                <img src="../html/image/boat.png" style="width: 55px;height: 55px;color: #fff;">
+                <p style="margin: 20px;font-size: 30px;margin-top: 16px;">JS Association</p>
+            </div>
+            <div style="display: flex;">
+                <span style="border-right: 1px solid #000 ;padding: 0px 50px;">广告投放</span>
+                <span style="border-right: 1px solid #000 ;padding: 0px 50px;">联系方式</span>
+                <span style="border-right: 1px solid #000 ;padding: 0px 50px;">关于我们</span>
+                <span style="border-right: 1px solid #000 ;padding: 0px 50px;">常见问题</span>
+                <span style="padding: 0px 50px;">意见反馈</span>
+            </div>
+            <div style="display: flex;margin-top: 30px;">
+                <span style="border-right: 1px solid #000 ;padding: 0px 50px;">友情链接 ：</span>
+                <span style="border-right: 1px solid #000 ;padding: 0px 50px;">广告投放</span>
+                <span style="border-right: 1px solid #000 ;padding: 0px 50px;">联系方式</span>
+                <span style="border-right: 1px solid #000 ;padding: 0px 50px;">关于我们</span>
+                <span style="border-right: 1px solid #000 ;padding: 0px 50px;">常见问题</span>
+                <span style="border-right: 1px solid #000 ;padding: 0px 50px;">关于我们</span>
+            </div>
+            <div style="display: flex;margin-top: 30px;">
+                <span style="padding: 0px 50px;">所有内容 © 2019 JS Association. 保留所有权利。</span>
+            </div>
+            <div style="display: flex;margin-top: 30px;">
+                <span style="padding: 0px 50px;">感谢浏览我们的网站 ^-^ 如果你是一名开发者，有意参与网站的开发，欢迎联系我们</span>
+            </div>
+        </div>
+        <div id="loginwindow"class="banner" style="position: relative; width: 100%; height: 100%; display: flex; 
+            justify-content: center; align-items: center;overflow: hidden;display: none;">
+            <div v-show="mode=='input'" class="login-blk" ref="id" style="height: 100%;padding: 10px 30px 20px 30px;">
+                <div style="display: flex; justify-content: flex-start; align-items: center;">
+                    <img alt="" src="../html/image/boat.png" style="width: 35px; height: auto;" />
+                    <p style="margin: 0px 15px;padding-top: 10px;">JS Association</p>
+                </div>
+                <h2 style="color: rgba(0, 0, 0, 0.8);font-family: 'Arial','STKaiti','黑体','宋体',sans-serif;padding-top: -20px;">账号</h2>
+                <input class="usual" placeholder="电子邮件或电话" v-model="id" style="height: 20px;"/>
+                <span style="font-size: 12px;">没有账户?<a class="usual">创建一个</a></span>
+                <div><button class="sbutton blue" style="float: right;" @click="next_step()">下一步</button></div>
+            </div>
+            <div v-show="mode=='pwd'" class="login-blk" ref="pwd" style="height: 100%;padding: 10px 30px 20px 30px;">
+                <div style="display: flex; justify-content: flex-start; align-items: center;">
+                    <img alt="" src="../html/image/boat.png" style="width: 35px; height: auto;" />
+                    <p style="margin: 0px 15px;padding-top: 10px;">JS Association</p>
+                </div>
+                <div style="width: 100%; height: auto; margin-top: 5px; line-height: 25px;">
+                    <h2 style="color: rgba(0, 0, 0, 0.8);font-family: 'Arial','STKaiti','黑体','宋体',sans-serif;">输入密码</h2>
+                    <span style="display: flex; align-items: center;">
+                        <i style="margin: 0px 5px; font-family: Segoe MDL2; font-size: 12px; font-style: normal; color: rgba(36,36,36,0.8); cursor: pointer;" @click="mode='input'">&#xE0A6;</i>
+                        <p style="font-size: 12px; color: rgba(36,36,36,0.6);">{{this.id}}</p>
+                    </span>
+                </div>
+                <input type="password" class="usual" placeholder="密码" v-model="pwd" style="height: 20px;"/>
+                <a class="usual">忘记密码了</a>
+                <div><button class="sbutton blue" style="float: right;">登录</button></div>
+            </div>
+        </div>
+    </div>
+    <style>
+        * { 
+            padding:0; 
+            margin:0; 
+            border:0; 
+        } 
+        .NavigationBar{
+            margin: 7px;
+        }
+        .NavigationBarp{
+            font-size: 15px;
+            text-align: center;
+        }
+        .welcomefont{
+            font-size: 23px;
+            font-family: 'Arial','STKaiti','黑体','宋体',sans-serif;
+            line-height: 40px;
+        }
+        .active{
+            width: 300px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        .activeimg{
+            width: 100%;
+            height: 180px;
+            border-radius: 5%;
+        }
+        .activep{
+            text-align: center;
+            font-family: 'Arial','STKaiti','黑体','宋体',sans-serif;
+            font-size: 23px;
+        }
+        .activep2{
+            text-align: center;
+            font-family: 'Arial','STKaiti','黑体','宋体',sans-serif;
+            font-size: 23px;
+            text-align: left;
+            font-size: 10px;
+            color: #fff;
+            margin: 20px 0 0 20px;
+        }
+        .swiper-container {
+          height: 300px;
+          width: 100%;
+        }
+        .swiper-slide {
+          text-align: center;
+          font-size: 38px;
+          font-weight: 700;
+          background-color: #eee;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+        }
+        .swiperdiv{
+            width: 100%;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            display: flex;
+            flex-direction: column;
+            align-items:flex-start;
+            justify-content: center;
+            opacity: 0.9;
+        }
+        .swiperfont{
+            font-size: 20px;
+            font-family: 'Arial','NSimSun','黑体','宋体',sans-serif;
+            color: white;
+            padding-left: 70px;
+        }
+        .swiper-inner {
+          width: 100%;
+          height: 400px;
+          padding-top: 0px;
+          padding-bottom: 0px;
+        }
+        a:link{
+            text-decoration:none;
+        }
+        a:hover{
+            border-bottom:  2px solid rgba(89, 22, 245, 0.493);
+        }
+        .loginbutton{
+            border: 0px;
+            margin: 5px 0px;
+            color: #fff;
+            font-family: 'Arial','STKaiti','黑体','宋体',sans-serif;
+            font-size: 15px;
+        }
+        body .layer_bg .layui-layer-content{
+            background-image: url(../html/image/loginbg.jpg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        } 
+        body .layer_bg .layui-layer-title{
+            background-color: rgba(173, 171, 171, 0.205);
+        }
+    
+    </style>
+    <script>
+        Vue.use(VueAwesomeSwiper)
+        var myapp = new Vue({
+            el:'#contain',
+            data(){
+                return{
+                    scroll:'',
+                    show_nav:true,
+                    id:'',
+                    pwd:'',
+                    mode:'input',
+                    swiperOptionA: {
+                 		pagination: {
+                      el: '.swiper-pagination'
+                    },
+                    navigation: {
+                      nextEl: '.swiper-button-next',
+                      prevEl: '.swiper-button-prev'
+                    }
+                    },
+                    swiperOption: {
+                    effect: 'coverflow',
+                    grabCursor: true,
+                    centeredSlides: true,
+                    slidesPerView: 'auto',
+                    coverflowEffect: {
+                      rotate: 50,
+                      stretch: 0,
+                      depth: 100,
+                      modifier: 1,
+                      slideShadows : true
+                    },
+                    },
+                    pagination: {
+                        el: '.swiper-pagination'
+                    }
+                }
+            },
+            components: {
+                LocalSwiper: VueAwesomeSwiper.swiper,
+    	        LocalSlide: VueAwesomeSwiper.swiperSlide,  
+            },
+            methods: {
+                onSetTranslate() {
+      	            console.log('onSetTranslate')
+                },
+                scrollFunc: function(e) {
+                    e=e || window.event;
+                    let scroll = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset
+                    var fullheight = document.body.offsetHeight;
+                    // console.log(document.documentElement.scrollTop);
+                    if (e.wheelDelta) {
+                        var a = e.wheelDelta;
+                        if(a>0){	
+                            // console.log(scroll);
+						    scroll -= fullheight/6;
+                            if (scroll > 800) {
+                                this.show_nav = false;
+                            }else{
+                                this.show_nav = true;
+                            }
+                            // console.log(scroll);
+                            // console.log(document.documentElement.scrollTop);
+                            // document.documentElement.scrollTop = scroll;
+						} 
+						if(a<0){
+                            // console.log(fullheight);
+						    scroll += fullheight/6;
+                            if (scroll > 800) {
+                                this.show_nav = false;
+                            }else{
+                                this.show_nav = true;
+                            }
+                            // console.log(scroll);
+                            // console.log(document.documentElement.scrollTop);
+                            // document.documentElement.scrollTop = scroll;
+                            // if (scroll > 300) {
+                            //     console.log("fullheight");
+                            //     document.documentElement.scrollTop = 580;
+                            // }
+                            // console.log(document.documentElement.scrollTop);
+                            // console.log("scroll");
+						}
+                    }
+                },
+                setList: function(control) {
+                     var child = document.getElementById("loginchild"); 
+                     var td2 = document.getElementById(control); 
+                     var t=td2.offsetTop; 
+                     var l=td2.offsetLeft; 
+                     child.style.position="absolute" ; 
+                     child.style.left = l; 
+                     child.style.top = t ; 
+                     child.style.display="block";
+                },
+                outList:function(){
+                    document.getElementById("loginchild").style.display="none";
+                },
+                loginclick:function(){
+                    layer.open({
+                    type: 1
+                    ,skin: 'layer_bg'
+                    ,area: ['440px', '280px']
+                    ,title: 'login'
+                    ,shade: 0.6
+                    ,maxmin: true
+                    ,anim: 1
+                    // ,content: '<div style="padding:50px;">这是一个非常普通的页面层，传入了自定义的html</div>'
+                    ,content:$('#loginwindow')
+                  });
+                },
+                next_step() {
+                    if (!(RegularManager.isPhone(this.id) || RegularManager.isEmail(this.id))) {
+                        Sweet.barWarning(1, "当前帐号既不是电子邮件也不是电话");
+                        return 0;
+                    }
+                    else {
+                        this.mode = "pwd";
+                    }
+                },
+                login(){
+                    console.log(this.id);
+                },
+            },
+            mounted () {
+                if(document.addEventListener){
+                    document.addEventListener('scroll',this.scrollFunc,false); 
+                }
+                window.onmousewheel=document.onmousewheel=this.scrollFunc;
+            }
+        });
+    </script>
+</body>
+</html>

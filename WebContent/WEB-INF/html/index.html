@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Index Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/http-vue-loader"></script>
+    <link rel="shortcut icon" href="../html/image/boat.png">
+</head>
+<body>
+    <div id="contain">
+        <div>
+            <navication-bar></navication-bar>
+        </div>
+        <div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+<script>
+
+// import navicationBar from '../components/navicationBar.vue'
+    var myapp = new Vue({
+        el:'#contain',
+        components: {
+            navicationBar,
+        },
+        data:{
+            
+        },
+        methods: {
+            
+        },
+    });
+</script>
+</body>
+</html>
