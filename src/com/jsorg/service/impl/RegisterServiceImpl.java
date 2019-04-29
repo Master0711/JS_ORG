@@ -28,14 +28,22 @@ public class RegisterServiceImpl implements RegisterService{
 
 	@Override
 	public List<Register> selectall() {
-		
 		return registerMapper.selectall();
 	}
 
 	@Override
 	public void check(String student_id, String approval_id, String approval_time, Boolean approval_result,
 			String approval_reason) {
-		
 		registerMapper.check(student_id, approval_id, approval_time, approval_result, approval_reason);
+	}
+
+	@Override
+	public Register getRegisterByid(String student_id) {
+		return registerMapper.getRegisterByid(student_id);
+	}
+
+	@Override
+	public void delectById(String student_id) {
+		registerMapper.delectById(student_id);
 	}
 }

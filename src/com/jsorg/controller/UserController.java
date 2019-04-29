@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jsorg.pojo.Register;
 import com.jsorg.service.RegisterService;
+import com.jsorg.service.UserService;
 import com.jsorg.util.IpUtil;
 import com.jsorg.util.RedisUtil;
 import com.jsorg.util.SendEmail;
@@ -29,6 +30,8 @@ public class UserController {
 	
 	@Autowired
 	RegisterService registerService;
+	@Autowired
+	UserService userService;
 	@Autowired
 	RedisUtil redisUtil;
 	@Autowired
@@ -158,14 +161,50 @@ public class UserController {
 //		Boolean approval_result = (Boolean) map.get("approval_result");
 //		String approval_reason = (String) map.get("approval_reason");
 		String approval_time = DateUtil.now();
-		
 		String student_id = "22";
 		String approval_id = "221500410";
 		Boolean approval_result = false;
 		String approval_reason = "可以啦";
-		registerService.check(student_id, approval_id, approval_time, 
-				approval_result, approval_reason);
 		
+		Register register = registerService.getRegisterByid(student_id);
+		String email = register.getEmail();
+		String content = register.getRealname()+
+				"同学~恭喜你通过我们的注册审核，正式成为我们的一员。现在你可以登陆系统，浏览更多精彩。来自 JS Association .  时间："+approval_time;
+		if (approval_result) {
+			registerService.check(student_id, approval_id, approval_time, 
+					approval_result, approval_reason);
+			userService.add(student_id, register.getRealname(), register.getCollege(), 
+					register.getDiscipline(), register.getPassword(), register.getGrade(), 
+					register.getSex(), email, register.getTelephone(), register.getBirthday(), 
+					1, "", 1);
+			sendEmail.send(email, content);
+		}else {
+			content = register.getRealname()+"同学."
+					+ "很遗憾你并未通过我们的注册审核，未通过的原因是："+approval_result + 
+					"请重新注册，期待你的加入。来自 JS Association .  时间："+approval_reason;
+			sendEmail.send(email, content);
+			registerService.delectById(student_id);
+		}
+		return 0;
+	}
+	@ResponseBody
+	@RequestMapping("updateinformation")
+	public Object updateimf(@RequestBody Map map,HttpServletRequest request) {
+		String student_id = (String) map.get("student_id");
+		String college = (String) map.get("college");
+		String discipline = (String) map.get("discipline");
+		String password = (String) map.get("password");
+		String grade = (String) map.get("grade");
+		int sex = (int) map.get("sex");
+		String birthday = (String) map.get("birthday");
+		String telephone = (String) map.get("telephone");
+		
+		userService.updateinformation(student_id, college, discipline, password, grade, sex, telephone, birthday);
+		return 0;
+	}
+	@ResponseBody
+	@RequestMapping("uprole")
+	public Object uprole() {
 		return 0;
 	}
 }

@@ -12,4 +12,6 @@ public interface RegisterService {
 	List<Register> selectall();
 	void check(String student_id,String approval_id,String approval_time,
 			Boolean approval_result,String approval_reason);
+	Register getRegisterByid(String student_id);
+	void delectById(String student_id);
 }

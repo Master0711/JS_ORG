@@ -19,5 +19,17 @@ public class UserServiceImpl implements UserService{
 		userMapper.add(student_id, realname, college, discipline, password, grade, 
 				sex, email, telephone, birthday, role, avatar, status);
 	}
+
+	@Override
+	public void updateinformation(String student_id, String college, String discipline, String password, String grade,
+			int sex, String telephone, String birthday) {
+		userMapper.updateinformation(student_id, college, discipline, password, grade, sex, telephone, birthday);
+	}
+
+	@Override
+	public void uprole(String student_id, int role) {
+		
+		userMapper.uprole(student_id, role);
+	}
 	
 }

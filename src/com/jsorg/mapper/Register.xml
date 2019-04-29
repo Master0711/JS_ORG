@@ -21,5 +21,12 @@
 	        , approval_time = #{2} , approval_result = #{3} , 
 	        approval_reason = #{4} where student_id = #{0} and is_approval = false
 	    </update>
+	    <select id="getRegisterByid" parameterType="string" resultType="Register">
+	        select * from   t_user_register  where student_id = #{0}    
+	    </select>
+	    
+	    <delete id="delectById" parameterType="string" >
+	        delete from t_user_register where student_id = #{0}   
+	    </delete>
 	</mapper>
 

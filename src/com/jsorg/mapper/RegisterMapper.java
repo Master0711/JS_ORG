@@ -12,4 +12,6 @@ public interface RegisterMapper {
 	public List<Register> selectall();
 	public void check(String student_id,String approval_id,String approval_time,
 			Boolean approval_result,String approval_reason);
+	public Register getRegisterByid(String student_id);
+	public void delectById(String student_id);
 }

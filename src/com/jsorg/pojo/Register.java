@@ -17,7 +17,7 @@ public class Register {
 	private String register_ip;
 	private Boolean is_approval;
 	private String approval_id;
-	private Time approval_time;
+	private String approval_time;
 	private Boolean approval_result;
 	private String approval_reason;
 	public String getStudent_id() {
@@ -105,10 +105,10 @@ public class Register {
 	public void setApproval_id(String approval_id) {
 		this.approval_id = approval_id;
 	}
-	public Time getApproval_time() {
+	public String getApproval_time() {
 		return approval_time;
 	}
-	public void setApproval_time(Time approval_time) {
+	public void setApproval_time(String approval_time) {
 		this.approval_time = approval_time;
 	}
 	public Boolean getApproval_result() {
