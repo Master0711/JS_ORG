@@ -5,9 +5,21 @@
 
 	<mapper namespace="com.jsorg.mapper.RegisterMapper">
 	    <insert id="apply" parameterType="Register">
-	        insert into t_user_register ( student_id,realname,password,college,
-	        discipline,grade,telephone,register_time,register_ip ) 
-	        values (#{0},#{1},#{2},#{3},#{4},#{5},#{6},#{7},#{8})    
+	        insert into t_user_register ( student_id,realname,college,discipline,
+	        password,grade,sex,birthday,email,telephone,register_time,register_ip ) 
+	        values (#{0},#{1},#{2},#{3},#{4},#{5},#{6},#{7},#{8},#{9},#{10},#{11})    
 	    </insert>  
+	    
+	    <select id="selectbycollege" parameterType="string" resultType="Register">
+	        select * from   t_user_register  where college= #{0} and is_approval = ""    
+	    </select>
+	    <select id="selectall" parameterType="string" resultType="Register">
+	        select * from   t_user_register  where is_approval = ""    
+	    </select>
+	    <update id="check" parameterType="string" >
+	        update t_user_register set is_approval = true , approval_id = #{1} 
+	        , approval_time = #{2} , approval_result = #{3} , 
+	        approval_reason = #{4} where student_id = #{0} and is_approval = false
+	    </update>
 	</mapper>
 

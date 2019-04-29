@@ -51,12 +51,13 @@
 </template>
 
 <script>
-module.exports = {
-    data: function() {
-        return {
-            
-        }
+export default {
+  name: 'navicationBar',
+  data () {
+    return {
+      
     }
+  }
 }
 </script>
 

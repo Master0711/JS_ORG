@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.jsorg.mapper.UserMapper">
+	    <insert id="add" parameterType="User">
+	        insert into t_user ( student_id,realname,college,discipline,
+	        password,grade,sex,email,telephone,birthday,role,avatar,status) 
+	        values (#{0},#{1},#{2},#{3},#{4},#{5},#{6},#{7},#{8},#{9},#{10},#{11},#{12})    
+	    </insert>  
+	</mapper>
+
