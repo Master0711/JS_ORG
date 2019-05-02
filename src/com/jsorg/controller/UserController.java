@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -205,6 +206,8 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping("uprole")
 	public Object uprole() {
+		UUID uuid = UUID.randomUUID();
+		Console.log(uuid);
 		return 0;
 	}
 }
