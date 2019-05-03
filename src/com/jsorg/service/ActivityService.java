@@ -10,4 +10,5 @@ public interface ActivityService {
 	List<Activity> getacticitylist(int status);
 	String getsignuplist(String activityId);
 	void updatesignuplist(String activityId,String list);
+	void updatestatus(String activityId,int status);
 }

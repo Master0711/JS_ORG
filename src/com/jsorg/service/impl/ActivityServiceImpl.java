@@ -19,28 +19,22 @@ public class ActivityServiceImpl implements ActivityService{
 			String startingtime, String place, String introduction, Boolean isteam) {
 		activityMapper.add(activityId, activityName, sponsor_id, addtime, deadline, 
 				startingtime, place, introduction, isteam);
-		
 	}
-
-
-
 	@Override
 	public List<Activity> getacticitylist(int status) {
 		return activityMapper.getacticitylist(status);
 	}
-
-
-
 	@Override
 	public String getsignuplist(String activityId) {
 		return activityMapper.getsignuplist(activityId);
 	}
-
-
-
 	@Override
 	public void updatesignuplist(String activityId, String list) {
 		activityMapper.updatesignuplist(activityId, list);
+	}
+	@Override
+	public void updatestatus(String activityId, int status) {
+		activityMapper.updatestatus(activityId, status);
 	}
 	
 }

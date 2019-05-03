@@ -18,5 +18,8 @@
 	    <select id="getsignuplist" parameterType="string" resultType="string">
 	        select list from   t_activity  where activityId = #{0}
 	    </select>
+	    <update id="updatestatus" parameterType="string" >
+	        update t_activity set status = #{1} where activityId = #{0}
+	    </update>
 	</mapper>
 

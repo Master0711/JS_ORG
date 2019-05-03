@@ -54,6 +54,7 @@ public class UserController {
 		String email = (String) map.get("email");
 		String telephone = (String) map.get("telephone");
 		String vervode = (String) map.get("vervode");
+		birthday = birthday.substring(0, 11);
 		
 		String register_ip = request.getHeader("x-forwarded-for");
 		if(register_ip == null || register_ip.length() == 0 ||"unknown".equalsIgnoreCase(register_ip)) {
@@ -210,4 +211,21 @@ public class UserController {
 		Console.log(uuid);
 		return 0;
 	}
+	@ResponseBody
+	@RequestMapping("getInformation")
+	public Object getInformation(HttpServletRequest request) {
+		String student_id = "22";
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		try {
+			resultMap.put("information", userService.getInformation(student_id));
+		} catch (Exception e) {
+			resultMap.put("status", "someerror");
+			resultMap.put("error", e);
+		}
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	
+	
 }

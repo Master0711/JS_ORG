@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jsorg.mapper.UserMapper;
+import com.jsorg.pojo.User;
 import com.jsorg.service.UserService;
 
 @Service
@@ -30,6 +31,11 @@ public class UserServiceImpl implements UserService{
 	public void uprole(String student_id, int role) {
 		
 		userMapper.uprole(student_id, role);
+	}
+
+	@Override
+	public User getInformation(String student_id) {
+		return userMapper.getInformation(student_id);
 	}
 	
 }

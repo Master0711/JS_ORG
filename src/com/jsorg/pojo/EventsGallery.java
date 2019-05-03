@@ -3,6 +3,7 @@ package com.jsorg.pojo;
 public class EventsGallery {
 	private String activityId;
 	private String activityName;
+	private String initiate_time;
 	private String activityContent;
 	private String headFigure;
 	private String picture_list;
@@ -20,6 +21,12 @@ public class EventsGallery {
 	}
 	public void setActivityName(String activityName) {
 		this.activityName = activityName;
+	}
+	public String getInitiate_time() {
+		return initiate_time;
+	}
+	public void setInitiate_time(String initiate_time) {
+		this.initiate_time = initiate_time;
 	}
 	public String getActivityContent() {
 		return activityContent;

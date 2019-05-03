@@ -17,5 +17,8 @@
 	    <update id="uprole" parameterType="string" >
 	        update t_user set role = #{1} where student_id = #{0}
 	    </update>
+	    <select id="getInformation" parameterType="string" resultType="User">
+	        select * from   t_user  where student_id= #{0} 
+	    </select>
 	</mapper>
 

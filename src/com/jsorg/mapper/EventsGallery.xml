@@ -5,7 +5,14 @@
 
 	<mapper namespace="com.jsorg.mapper.EventsGalleryMapper">
 	    <insert id="addEvents" parameterType="string">
-	        insert into t_eventsGallery ( activityId,activityName) values (#{0},#{1})    
+	        insert into t_eventsGallery ( activityId,activityName,initiate_time) values (#{0},#{1},#{2})    
 	    </insert>
+	    <select id="getAllEvents" parameterType="string" resultType="EventsGallery">
+	        select * from   t_eventsGallery  where is_write = #{0}    
+	    </select>
+	    <update id="perfect" parameterType="string" >
+	        update t_eventsGallery set activityContent = #{0} , headFigure = #{1} 
+	        , picture_list = #{2} , author_id = #{3} , time = #{4} , is_write = #{5} 
+	    </update>
 	</mapper>
 

@@ -10,4 +10,5 @@ public interface ActivityMapper {
 	public List<Activity> getacticitylist(int status);
 	public String getsignuplist(String activityId);
 	public void updatesignuplist(String activityId,String list);
+	public void updatestatus(String activityId,int status);
 }
