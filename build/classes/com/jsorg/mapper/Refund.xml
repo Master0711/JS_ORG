@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.jsorg.mapper.RefundMapper">
+	    <insert id="add" parameterType="Refund">
+	        insert into t_refund ( uuid,bookingid,applicantid,time,reason,is_approval) 
+	        values (#{0},#{1},#{2},#{3},#{4},#{5})    
+	    </insert>  
+	    <select id="getRefundBydoubleid" resultType="Refund">
+	        select * from   t_refund where bookingid = #{0} and applicantid = #{1}
+	    </select>
+	    <select id="getRefundByapplicantid" resultType="Refund">
+	        select * from   t_refund where applicantid = #{0}
+	    </select>
+	</mapper>
+

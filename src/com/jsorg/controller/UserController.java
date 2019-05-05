@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jsorg.pojo.Register;
+import com.jsorg.pojo.User;
 import com.jsorg.service.RegisterService;
 import com.jsorg.service.UserService;
 import com.jsorg.util.IpUtil;
@@ -192,17 +193,24 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping("updateinformation")
 	public Object updateimf(@RequestBody Map map,HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
 		String student_id = (String) map.get("student_id");
+		student_id = "221500410";
 		String college = (String) map.get("college");
 		String discipline = (String) map.get("discipline");
-		String password = (String) map.get("password");
 		String grade = (String) map.get("grade");
-		int sex = (int) map.get("sex");
 		String birthday = (String) map.get("birthday");
 		String telephone = (String) map.get("telephone");
-		
-		userService.updateinformation(student_id, college, discipline, password, grade, sex, telephone, birthday);
-		return 0;
+		try {
+			userService.updateinformation(student_id, college, discipline, grade, telephone, birthday);
+		} catch (Exception e) {
+			resultMap.put("status", "someerror");
+			resultMap.put("error", e);
+			Console.log(e);
+		}
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
 	}
 	@ResponseBody
 	@RequestMapping("uprole")
@@ -214,14 +222,18 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping("getInformation")
 	public Object getInformation(HttpServletRequest request) {
-		String student_id = "22";
+		String student_id = "221500410";
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("status", "success");
+		User user = new User();
 		try {
-			resultMap.put("information", userService.getInformation(student_id));
+			user = userService.getInformation(student_id);
+			user.setBirthday(user.getBirthday().substring(0,10));
+			resultMap.put("information", user);
 		} catch (Exception e) {
 			resultMap.put("status", "someerror");
 			resultMap.put("error", e);
+			Console.log(e);
 		}
 		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
 		return jsonObject;

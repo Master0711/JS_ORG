@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.jsorg.mapper.TrainMapper">
+	    <insert id="add" parameterType="Train">
+	        insert into t_train ( uuid,trainName,sponsor,releasetime,departuretime,
+	        deadline,refundtime,startingpoint,destination,fare,list,status) 
+	        values (#{0},#{1},#{2},#{3},#{4},#{5},#{6},#{7},#{8},#{9},#{10},#{11})    
+	    </insert>  
+	    <select id="getTrainList" parameterType="string" resultType="Train">
+	        select * from   t_train  where status= #{0} 
+	    </select>
+	    <select id="getAllTrain" resultType="Train">
+	        select * from   t_train 
+	    </select>
+	    <update id="updatestatus" parameterType="string" >
+	        update t_train set status = #{1} where uuid = #{0}
+	    </update>
+	    <select id="geTrain" parameterType="string" resultType="Train">
+	        select * from   t_train where uuid = #{0}
+	    </select>
+	</mapper>
+
