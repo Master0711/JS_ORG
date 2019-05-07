@@ -23,5 +23,12 @@
 	    <select id="getBookingBybookingid" parameterType="string" resultType="Booking">
 	        select * from   t_booking  where uuid= #{0} 
 	    </select>
+	    <select id="getBookingUnCheck" parameterType="string" resultType="Booking">
+	        select * from   t_booking  where is_approval = 0
+	    </select>
+	    <update id="updateBookingCheck" parameterType="string" >
+	        update t_booking set status = #{1} , is_approval = #{2} , 
+	        approval_id = #{3} , approval_time = #{4} , approval_result = #{5}, approval_reason = #{6} where uuid = #{0}
+	    </update>
 	</mapper>
 

@@ -136,8 +136,14 @@ public class TrainController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("status", "success");
 		resultMap.put("message", "订票成功，请等待审核结果，我们将以邮件的方式通知您审核结果");
+		Boolean boolean1 = false;
 		try {
-			if (bookingService.getBookingByDoubleID(trainid, applicantid).getStatus() == 1) {
+			for (Booking booking : bookingService.getBookingByDoubleID(trainid, applicantid)) {
+				if (booking.getStatus() == 1) {
+					boolean1 = true;
+				}
+			}
+			if (boolean1) {
 				Console.log("已经有尚未审核的订单，请等待审核后在进行预定");
 				resultMap.put("message", "已经有尚未审核的订单，请等待审核");
 			}else {
@@ -243,6 +249,86 @@ public class TrainController {
 			}else {
 				resultMap.put("message", "您已经提交过退票申请，正在处理中，请勿重复申请。");
 			}
+		} catch (Exception e) {
+			resultMap.put("status", "someerror");
+			resultMap.put("error", e);
+			Console.log(e);
+		}
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("getTicketingList")
+	public Object getTicketingList(HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		List<Map> bookingList = new ArrayList<Map>();
+		List<Map> refundList = new ArrayList<Map>();
+		try {
+			for (Booking booking : bookingService.getBookingUnCheck()) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("bookingid", booking.getUuid());
+				map.put("client_id", booking.getApplicantid());
+				map.put("count", booking.getCount());
+				map.put("trainName", trainService.geTrain(booking.getTrainid()).getTrainName());
+				map.put("departuretime", trainService.geTrain(booking.getTrainid()).getDeparturetime());
+				bookingList.add(map);
+			}
+			resultMap.put("bookingList", bookingList);
+			for (Refund refund : refundService.getRefundListUncheck()) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				Booking booking = bookingService.getBookingBybookingid(refund.getBookingid());
+				Console.log(refund.getUuid());
+				map.put("refundid", refund.getUuid());
+				map.put("client_id", booking.getApplicantid());
+				map.put("trainName", trainService.geTrain(booking.getTrainid()).getTrainName());
+				map.put("departuretime", trainService.geTrain(booking.getTrainid()).getDeparturetime());
+				map.put("count", booking.getCount());
+				refundList.add(map);
+			}
+			resultMap.put("refundList", refundList);
+		} catch (Exception e) {
+			resultMap.put("status", "someerror");
+			resultMap.put("error", e);
+			Console.log(e);
+		}
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("processBooking")
+	public Object processBooking(@RequestBody Map map,HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		String bookingid = (String) map.get("bookingid"); 
+		String result = (String) map.get("result"); 
+		String reason = (String) map.get("reason"); 
+		String approval_id = "221500410";
+		String datenow = DateUtil.now();
+		try {
+			bookingService.updateBookingCheck(bookingid, 2, true, 
+					approval_id, datenow, result, reason);
+		} catch (Exception e) {
+			resultMap.put("status", "someerror");
+			resultMap.put("error", e);
+			Console.log(e);
+		}
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("processRefund")
+	public Object processRefund(@RequestBody Map map,HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		String refundid = (String) map.get("refundid"); 
+		String result = (String) map.get("result"); 
+		String reason = (String) map.get("reason"); 
+		String approval_id = "221500410";
+		String datenow = DateUtil.now();
+		try {
+			refundService.updateRefundUncheck(refundid, true, approval_id, datenow,
+					result, reason);
 		} catch (Exception e) {
 			resultMap.put("status", "someerror");
 			resultMap.put("error", e);

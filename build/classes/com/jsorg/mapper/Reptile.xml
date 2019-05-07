@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.jsorg.mapper.ReptileMapper">
+	    <insert id="add" parameterType="string">
+	        insert into t_reptile ( reptileid,title,time,location,content,
+	        url,is_approval) values (#{0},#{1},#{2},#{3},#{4},#{5},#{6})    
+	    </insert>
+	    <select id="list" parameterType="string" resultType="Reptile">
+	        select * from   t_reptile  where is_approval = 0
+	    </select>
+	    <update id="updateTips" parameterType="string" >
+	        update t_reptile set tips = #{1} , is_approval = #{2} , 
+	        approval_id = #{3} , approval_time = #{4} , approval_result = #{5}, approval_reason = #{6} where reptileid = #{0}
+	    </update>
+	    <select id="getReptilesListByid" parameterType="string" resultType="Reptile">
+	        select * from   t_reptile  where reptileid = #{0}
+	    </select>
+	</mapper>
+

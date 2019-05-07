@@ -23,7 +23,7 @@ public class BookingServiceImpl implements BookingService{
 	}
 
 	@Override
-	public Booking getBookingByDoubleID(String trainid, String applicantid) {
+	public List<Booking> getBookingByDoubleID(String trainid, String applicantid) {
 		// TODO Auto-generated method stub
 		return bookingMapper.getBookingByDoubleID(trainid, applicantid);
 	}
@@ -50,6 +50,21 @@ public class BookingServiceImpl implements BookingService{
 	public Booking getBookingBybookingid(String uuid) {
 		// TODO Auto-generated method stub
 		return bookingMapper.getBookingBybookingid(uuid);
+	}
+
+	@Override
+	public List<Booking> getBookingUnCheck() {
+		// TODO Auto-generated method stub
+		return bookingMapper.getBookingUnCheck();
+	}
+
+	@Override
+	public void updateBookingCheck(String uuid, int status, Boolean is_approval, String approval_id,
+			String approval_time, String approval_result, String approval_reason) {
+		// TODO Auto-generated method stub
+		bookingMapper.updateBookingCheck(uuid, status, is_approval, approval_id, 
+				approval_time, approval_result, approval_reason);
+		
 	}
 	
 }

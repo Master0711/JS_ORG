@@ -31,5 +31,18 @@ public class RefundServiceImpl implements RefundService{
 		// TODO Auto-generated method stub
 		return refundMapper.getRefundByapplicantid(applicantid);
 	}
+
+	@Override
+	public List<Refund> getRefundListUncheck() {
+		// TODO Auto-generated method stub
+		return refundMapper.getRefundListUncheck();
+	}
+
+	@Override
+	public void updateRefundUncheck(String uuid, Boolean is_approval, String approval_id, String approval_time,
+			String approval_result, String approval_reason) {
+		// TODO Auto-generated method stub
+		refundMapper.updateRefundUncheck(uuid, is_approval, approval_id, approval_time, approval_result, approval_reason);
+	}
 	
 }

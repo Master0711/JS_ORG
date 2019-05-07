@@ -14,5 +14,12 @@
 	    <select id="getRefundByapplicantid" resultType="Refund">
 	        select * from   t_refund where applicantid = #{0}
 	    </select>
+	    <select id="getRefundListUncheck" resultType="Refund">
+	        select * from   t_refund where is_approval = 0
+	    </select>
+	    <update id="updateRefundUncheck" parameterType="string" >
+	        update t_refund set is_approval = #{1} , approval_id = #{2} , 
+	        approval_time = #{3} , approval_result = #{4} , approval_reason = #{5} where uuid = #{0}
+	    </update>
 	</mapper>
 

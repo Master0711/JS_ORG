@@ -112,6 +112,7 @@
     </bean>
     <bean id="emailUtil" class="com.jsorg.util.SendEmail"></bean>
     <bean id="ipUtil" class="com.jsorg.util.IpUtil"></bean>
+    <bean id="reptileUtil" class="com.jsorg.util.ReptileUtil"></bean>
 	
 
 
