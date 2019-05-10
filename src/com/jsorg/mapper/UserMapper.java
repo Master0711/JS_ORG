@@ -1,5 +1,7 @@
 package com.jsorg.mapper;
 
+import java.util.List;
+
 import com.jsorg.pojo.User;
 
 public interface UserMapper {
@@ -10,4 +12,9 @@ public interface UserMapper {
 			String grade,String telephone,String birthday);
 	public void uprole(String student_id,int role);
 	public User getInformation(String student_id);
+	public User getInformationByemail(String email);
+	public void updateavatarimage(String student_id,String avatar);
+	public List<User> list();
+	public List<User> listbycollege(String college);
+	public void setlabel(String student_id,String label);
 }

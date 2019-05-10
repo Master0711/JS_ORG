@@ -41,5 +41,11 @@ public class ReptileServiceImpl implements ReptileService{
 		// TODO Auto-generated method stub
 		return reptileMapper.getReptilesListByid(reptileid);
 	}
+
+	@Override
+	public List<Reptile> getcheckedlist() {
+		// TODO Auto-generated method stub
+		return reptileMapper.getcheckedlist();
+	}
 	
 }

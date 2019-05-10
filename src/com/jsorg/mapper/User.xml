@@ -19,5 +19,20 @@
 	    <select id="getInformation" parameterType="string" resultType="User">
 	        select * from   t_user  where student_id= #{0} 
 	    </select>
+	    <select id="getInformationByemail" parameterType="string" resultType="User">
+	        select * from   t_user  where email= #{0} 
+	    </select>
+	    <update id="updateavatarimage" parameterType="string" >
+	        update t_user set avatar = #{1} where student_id = #{0}
+	    </update>
+	    <select id="list" resultType="User">
+	        select * from   t_user 
+	    </select>
+	    <select id="listbycollege" resultType="User">
+	        select * from   t_user where college = #{0}
+	    </select>
+	    <update id="setlabel" parameterType="string" >
+	        update t_user set label = #{1} where student_id = #{0}
+	    </update>
 	</mapper>
 

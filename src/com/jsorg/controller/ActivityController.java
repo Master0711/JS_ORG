@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.jsorg.pojo.Activity;
 import com.jsorg.pojo.EventsGallery;
+import com.jsorg.pojo.User;
 import com.jsorg.service.ActivityService;
 import com.jsorg.service.EventsGalleryService;
+import com.jsorg.util.RedisUtil;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Console;
@@ -29,35 +31,37 @@ public class ActivityController {
 	ActivityService activityService;
 	@Autowired
 	EventsGalleryService eventsGalleryService;
+	@Autowired
+	RedisUtil redisUtil;
 	
 	@ResponseBody
 	@RequestMapping("initActivity")
 	public Object initActivity(@RequestBody Map map,HttpServletRequest request) {
 		String activityId = UUID.randomUUID().toString();
 		String activityName = (String) map.get("activityName");
-		String deadline = (String) map.get("deadline");
+		String deadlinedate = (String) map.get("deadlinedate");
+		String deadlinetime = (String) map.get("deadlinetime");
 		String startingtime = (String) map.get("startingtime");
+		String startingdate = (String) map.get("startingdate");
 		String place = (String) map.get("place");
 		String introduction = (String) map.get("introduction");
-		Boolean isteam = true;
-		if ((Boolean) map.get("isteam").equals("false")) {
-			isteam = false;
-		}
-		Console.log(startingtime);
-		Console.log(deadline);
-		String sponsor_id = "221500410";
+		Boolean isteam = false;
+		
 		String addtime = DateUtil.now();
-		startingtime = startingtime.substring(0, 16);
-		startingtime =  startingtime.replace("T", " ");
-		deadline = deadline.substring(0, 16);
-		deadline =  deadline.replace("T", " ");
-		Console.log(startingtime);
+		String starting = startingdate.substring(0, 10) + " " + startingtime;
+		String deadline = deadlinedate.substring(0, 10) + " " + deadlinetime;
+		String sponsor_id = "";
+		User user = (User) redisUtil.get("user");
+		if (user != null) {
+			sponsor_id = user.getStudent_id();
+		}
+		Console.log(starting);
 		Console.log(deadline);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
 		try {
-			resultMap.put("status", "success");
 			activityService.add(activityId, activityName, sponsor_id, addtime, deadline, 
-					startingtime, place, introduction, isteam);
+					starting, place, introduction, isteam);
 			addtime = addtime.substring(0, 10);
 			eventsGalleryService.addEvents(activityId, activityName, addtime);
 		} catch (Exception e) {

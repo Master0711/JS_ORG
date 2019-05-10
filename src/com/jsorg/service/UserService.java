@@ -1,5 +1,7 @@
 package com.jsorg.service;
 
+import java.util.List;
+
 import com.jsorg.pojo.User;
 
 public interface UserService {
@@ -10,4 +12,9 @@ public interface UserService {
 			String grade,String telephone,String birthday);
 	void uprole(String student_id,int role);
 	User getInformation(String student_id);
+	User getInformationByemail(String email);
+	void updateavatarimage(String student_id,String avatar);
+	List<User> list();
+	List<User> listbycollege(String college);
+	void setlabel(String student_id,String label);
 }

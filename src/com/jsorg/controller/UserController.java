@@ -1,5 +1,9 @@
 package com.jsorg.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +11,8 @@ import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,15 +26,21 @@ import com.jsorg.pojo.User;
 import com.jsorg.service.RegisterService;
 import com.jsorg.service.UserService;
 import com.jsorg.util.IpUtil;
+import com.jsorg.util.RSAUtils;
 import com.jsorg.util.RedisUtil;
 import com.jsorg.util.SendEmail;
+import com.xuxueli.poi.excel.ExcelExportUtil;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Console;
+import cn.hutool.crypto.digest.DigestAlgorithm;
+import cn.hutool.crypto.digest.Digester;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	static String publicKey;
+    static String privateKey;
 	
 	@Autowired
 	RegisterService registerService;
@@ -141,54 +153,73 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping("getregisterlist")
 	public Object getregisterlist(HttpServletRequest request) {
-		String role = "1";
-		String college = "数学与计算机科学";
-		
-		List<Register> registers = null;
-		
-		if (role.equals("1")) {
-			registers = registerService.selectbycollege(college);
-		}else if (role.equals("2") || role.equals("3")) {
-			registers = registerService.selectall();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		User user = (User) redisUtil.get("user");
+		try {
+			if (user != null) {
+				if (user.getRole() == 2) {
+					resultMap.put("registerlist", registerService.selectbycollege(user.getCollege()));
+				}else if (user.getRole() == 3) {
+					resultMap.put("registerlist", registerService.selectall());
+				}
+			}
+		} catch (Exception e) {
+			resultMap.put("status", "someerror");
+			resultMap.put("error", e);
+			Console.log(e);
 		}
 		
-		Object jsonObject = JSONObject.toJSON(registers);
+		Object jsonObject = JSONObject.toJSON(resultMap);
 		return jsonObject;
 	}
 	@ResponseBody
 	@RequestMapping("checkregister")
-	public Object checkregister(HttpServletRequest request) {
+	public Object checkregister(@RequestBody Map map,HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
 		
-//		String student_id = (String) map.get("student_id");
-//		String approval_id = (String) map.get("approval_id");
-//		Boolean approval_result = (Boolean) map.get("approval_result");
-//		String approval_reason = (String) map.get("approval_reason");
+		String result = (String) map.get("result");
+		String approval_reason = (String) map.get("reason");
+		String student_id = (String) map.get("student_id");
 		String approval_time = DateUtil.now();
-		String student_id = "22";
-		String approval_id = "221500410";
-		Boolean approval_result = false;
-		String approval_reason = "可以啦";
-		
+		User user = (User) redisUtil.get("user");
+		String approval_id = "";
+		if (user != null) {
+			approval_id = user.getStudent_id();
+		}
+		Boolean approval_result = true;
+		if (result.equals("false")) {
+			approval_result = false;
+		}
+
 		Register register = registerService.getRegisterByid(student_id);
 		String email = register.getEmail();
 		String content = register.getRealname()+
 				"同学~恭喜你通过我们的注册审核，正式成为我们的一员。现在你可以登陆系统，浏览更多精彩。来自 JS Association .  时间："+approval_time;
-		if (approval_result) {
-			registerService.check(student_id, approval_id, approval_time, 
-					approval_result, approval_reason);
-			userService.add(student_id, register.getRealname(), register.getCollege(), 
-					register.getDiscipline(), register.getPassword(), register.getGrade(), 
-					register.getSex(), email, register.getTelephone(), register.getBirthday(), 
-					1, "", 1);
-			sendEmail.send(email, content);
-		}else {
-			content = register.getRealname()+"同学."
-					+ "很遗憾你并未通过我们的注册审核，未通过的原因是："+approval_result + 
-					"请重新注册，期待你的加入。来自 JS Association .  时间："+approval_reason;
-			sendEmail.send(email, content);
-			registerService.delectById(student_id);
+		try {
+			if (approval_result) {
+				registerService.check(student_id, approval_id, approval_time, 
+						approval_result, approval_reason);
+				userService.add(student_id, register.getRealname(), register.getCollege(), 
+						register.getDiscipline(), register.getPassword(), register.getGrade(), 
+						register.getSex(), email, register.getTelephone(), register.getBirthday(), 
+						1, "", 1);
+				sendEmail.send(email, content);
+			}else {
+				content = register.getRealname()+"同学."
+						+ "很遗憾你并未通过我们的注册审核，未通过的原因是："+approval_result + 
+						"请重新注册，期待你的加入。来自 JS Association .  时间："+approval_reason;
+				sendEmail.send(email, content);
+				registerService.delectById(student_id);
+			}
+		} catch (Exception e) {
+			resultMap.put("status", "someerror");
+			resultMap.put("error", e);
+			Console.log(e);
 		}
-		return 0;
+		Object jsonObject = JSONObject.toJSON(resultMap);
+		return jsonObject;
 	}
 	@ResponseBody
 	@RequestMapping("updateinformation")
@@ -222,6 +253,10 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping("getInformation")
 	public Object getInformation(HttpServletRequest request) {
+		HttpSession httpSession = request.getSession();
+		httpSession.setAttribute("111", "222");
+		
+		Console.log(httpSession.getAttribute("111"));
 		String student_id = "221500410";
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("status", "success");
@@ -238,6 +273,117 @@ public class UserController {
 		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
 		return jsonObject;
 	}
-	
-	
+	@ResponseBody
+	@RequestMapping("getpublickey")
+	public Object getpublickey(HttpServletRequest request) throws Exception {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		Map<String, Object> keyMap = RSAUtils.genKeyPair();
+        publicKey = RSAUtils.getPublicKey(keyMap);
+        privateKey = RSAUtils.getPrivateKey(keyMap);
+		resultMap.put("publickey", publicKey);
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("checkPassword")
+	public Object checkPassword(@RequestBody Map map,HttpServletRequest request) throws Exception {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		String password = (String) map.get("password");
+		password = RSAUtils.decryptDataOnJava(password, privateKey);
+		Console.log(password);
+		
+		Digester md5 = new Digester(DigestAlgorithm.MD5);
+		String digestHex = md5.digestHex(password);
+		Console.log(digestHex);
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("login")
+	public Object login(@RequestBody Map map,HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		String studentid = (String) map.get("studentid");
+		String encryptpwd = (String) map.get("encryptpwd");
+		encryptpwd = RSAUtils.decryptDataOnJava(encryptpwd, privateKey);
+		Digester md5 = new Digester(DigestAlgorithm.MD5);
+		String digestHex = md5.digestHex(encryptpwd);
+//		Console.log(encryptpwd);
+//		Console.log(digestHex);
+		if (userService.getInformation(studentid) != null) {
+			if (userService.getInformation(studentid).getPassword().equals(digestHex)) {
+				resultMap.put("message", "password is correct");
+				redisUtil.set("user", userService.getInformation(studentid), 60*30);
+			}else {
+				resultMap.put("message", "password is error");
+			}
+		}else {
+			resultMap.put("message", "Account does not exist");
+		}
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("identitycheck")
+	public Object identitycheck(HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		User user = (User) redisUtil.get("user");
+		if (user != null) {
+			resultMap.put("islogin", true);
+		}else {
+			resultMap.put("islogin", false);
+		}
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("getinftocheck")
+	public Object getinftocheck(HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		User user = (User) redisUtil.get("user");
+		if (user != null) {
+			resultMap.put("student_id", user.getStudent_id());
+			resultMap.put("realname", user.getRealname());
+			resultMap.put("email", user.getEmail());
+			resultMap.put("role", user.getRole());
+		}
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("loginout")
+	public Object loginout(HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		redisUtil.del("user");
+		
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("getmemberInformation")
+	public Object getmemberInformation(HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		User user = (User) redisUtil.get("user");
+		try {
+			if (user != null) {
+				if (user.getRole() == 2) {
+					resultMap.put("memberlist",userService.listbycollege(user.getCollege()));
+				}else if (user.getRole() == 3) {
+					resultMap.put("memberlist",userService.list());
+				}
+			}
+		} catch (Exception e) {
+			resultMap.put("status", "someerror");
+			resultMap.put("error", e);
+			Console.log(e);
+		}
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
 }

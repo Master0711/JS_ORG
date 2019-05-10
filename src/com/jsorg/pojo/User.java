@@ -1,6 +1,8 @@
 package com.jsorg.pojo;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
 	private String student_id;
 	private String realname;
 	private String college;
@@ -14,6 +16,14 @@ public class User {
 	private int role;
 	private String avatar;
 	private int status;
+	private String label;
+	
+	public String getLabel() {
+		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
+	}
 	public String getStudent_id() {
 		return student_id;
 	}

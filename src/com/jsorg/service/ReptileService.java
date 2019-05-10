@@ -12,4 +12,5 @@ public interface ReptileService {
 			String approval_id,String approval_time,String approval_result,String approval_reason);
 	List<Reptile> list();
 	List<Reptile> getReptilesListByid(String reptileid);
+	List<Reptile> getcheckedlist();
 }

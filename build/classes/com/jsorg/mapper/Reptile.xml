@@ -18,5 +18,8 @@
 	    <select id="getReptilesListByid" parameterType="string" resultType="Reptile">
 	        select * from   t_reptile  where reptileid = #{0}
 	    </select>
+	    <select id="getcheckedlist" parameterType="string" resultType="Reptile">
+	        select * from   t_reptile  where is_approval = 1
+	    </select>
 	</mapper>
 

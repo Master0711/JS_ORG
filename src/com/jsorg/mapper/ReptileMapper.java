@@ -11,4 +11,5 @@ public interface ReptileMapper {
 			String approval_id,String approval_time,String approval_result,String approval_reason);
 	public List<Reptile> list();
 	public List<Reptile> getReptilesListByid(String reptileid);
+	public List<Reptile> getcheckedlist();
 }

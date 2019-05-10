@@ -1,5 +1,7 @@
 package com.jsorg.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,37 @@ public class UserServiceImpl implements UserService{
 			String birthday) {
 		userMapper.updateinformation(student_id, college, discipline, grade, telephone, birthday);
 		
+	}
+
+	@Override
+	public User getInformationByemail(String email) {
+		// TODO Auto-generated method stub
+		return userMapper.getInformationByemail(email);
+	}
+
+	@Override
+	public void updateavatarimage(String student_id, String avatar) {
+		// TODO Auto-generated method stub
+		userMapper.updateavatarimage(student_id, avatar);
+		
+	}
+
+	@Override
+	public List<User> list() {
+		// TODO Auto-generated method stub
+		return userMapper.list();
+	}
+
+	@Override
+	public List<User> listbycollege(String college) {
+		// TODO Auto-generated method stub
+		return userMapper.listbycollege(college);
+	}
+
+	@Override
+	public void setlabel(String student_id, String label) {
+		// TODO Auto-generated method stub
+		userMapper.setlabel(student_id, label);
 	}
 	
 }

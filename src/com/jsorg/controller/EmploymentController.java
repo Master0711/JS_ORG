@@ -1,5 +1,6 @@
 package com.jsorg.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jsorg.pojo.Reptile;
+import com.jsorg.pojo.User;
 import com.jsorg.service.EmploymentService;
 import com.jsorg.service.ReptileService;
+import com.jsorg.service.UserService;
+import com.jsorg.util.RedisUtil;
 import com.jsorg.util.ReptileUtil;
 
 import cn.hutool.core.date.DateUtil;
@@ -30,6 +35,10 @@ public class EmploymentController {
 	EmploymentService employmentService;
 	@Autowired
 	ReptileService reptileService;
+	@Autowired
+	UserService userService;
+	@Autowired
+	RedisUtil redisUtil;
 	
 	@ResponseBody
 	@RequestMapping("reptileInit")
@@ -107,6 +116,94 @@ public class EmploymentController {
 			resultMap.put("status", "someerror");
 			resultMap.put("error", e);
 		}
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("getShowReptile")
+	public Object getShowReptile(HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		List<String> imageList = new ArrayList<String>();
+		imageList.add("static/image/jobbg1.jpg");
+		imageList.add("static/image/jobbg2.jpg");
+		imageList.add("static/image/jobbg3.jpg");
+		imageList.add("static/image/jobbg4.jpg");
+		imageList.add("static/image/jobbg5.jpg");
+		try {
+			List<Map<String, String>> maps = new ArrayList<Map<String,String>>();
+			List<Reptile> reptiles = reptileService.getcheckedlist();
+			int index = 0;
+			for (Reptile reptile : reptiles) {
+				Map<String, String> map = new HashMap<String, String>();
+				if (maps.size() <= 5) {
+					map.put("title", reptile.getTitle());
+					map.put("time", reptile.getTime());
+					map.put("location", reptile.getLocation());
+					map.put("content", reptile.getContent());
+					map.put("url", reptile.getUrl());
+					map.put("tips", reptile.getTips());
+					map.put("bgimage", imageList.get(index));
+					index ++ ;
+					maps.add(map);
+				}
+			}
+			resultMap.put("reptiles", maps);
+		} catch (Exception e) {
+			resultMap.put("status", "someerror");
+			resultMap.put("error", e);
+		}
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("setlabel")
+	public Object setlabel(@RequestBody Map map,HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		User user = (User) redisUtil.get("user");
+		String studentid = "";
+		if (user != null) {
+			studentid = user.getStudent_id();
+		}
+		String label = "";
+		@SuppressWarnings("unchecked")
+		List<String> list = (List<String>) map.get("label"); 
+		for (String string : list) {
+			label = label + string + ".";
+		}
+		try {
+			userService.setlabel(studentid, label);
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("status", "someerror");
+			resultMap.put("error", e);
+			Console.log(e);
+		}
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("getlabel")
+	public Object getlabel(HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		User user = (User) redisUtil.get("user");
+		String studentid = "";
+		if (user != null) {
+			studentid = user.getStudent_id();
+		}
+		try {
+			String label = userService.getInformation(studentid).getLabel();
+			label = label.replace(".", " ");
+			resultMap.put("label", label);
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("status", "someerror");
+			resultMap.put("error", e);
+			Console.log(e);
+		}
+		
 		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
 		return jsonObject;
 	}
