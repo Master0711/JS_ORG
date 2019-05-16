@@ -31,4 +31,16 @@ public class EventsGalleryServiceImpl implements EventsGalleryService{
 		eventsGalleryMapper.addEvents(activityId, activityName, initiate_time);
 	}
 
+	@Override
+	public EventsGallery getEventsGallery(String activityId) {
+		// TODO Auto-generated method stub
+		return eventsGalleryMapper.getEventsGallery(activityId);
+	}
+
+	@Override
+	public void uploadimage(String activityId,String headFigure, String picture_list) {
+		// TODO Auto-generated method stub
+		eventsGalleryMapper.uploadimage(activityId,headFigure, picture_list);
+	}
+
 }

@@ -11,4 +11,5 @@ public interface ActivityService {
 	String getsignuplist(String activityId);
 	void updatesignuplist(String activityId,String list);
 	void updatestatus(String activityId,int status);
+	Activity getActivity(String activityId);
 }

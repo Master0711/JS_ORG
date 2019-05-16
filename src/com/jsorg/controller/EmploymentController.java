@@ -134,9 +134,10 @@ public class EmploymentController {
 			List<Map<String, String>> maps = new ArrayList<Map<String,String>>();
 			List<Reptile> reptiles = reptileService.getcheckedlist();
 			int index = 0;
+			int k =0;
 			for (Reptile reptile : reptiles) {
 				Map<String, String> map = new HashMap<String, String>();
-				if (maps.size() <= 5) {
+				if (k < 5) {
 					map.put("title", reptile.getTitle());
 					map.put("time", reptile.getTime());
 					map.put("location", reptile.getLocation());
@@ -145,6 +146,7 @@ public class EmploymentController {
 					map.put("tips", reptile.getTips());
 					map.put("bgimage", imageList.get(index));
 					index ++ ;
+					k ++ ;
 					maps.add(map);
 				}
 			}
@@ -152,6 +154,7 @@ public class EmploymentController {
 		} catch (Exception e) {
 			resultMap.put("status", "someerror");
 			resultMap.put("error", e);
+			Console.log(e);
 		}
 		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
 		return jsonObject;
@@ -204,6 +207,21 @@ public class EmploymentController {
 			Console.log(e);
 		}
 		
+		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
+		return jsonObject;
+	}
+	@ResponseBody
+	@RequestMapping("getrecommendedlist")
+	public Object getrecommendedlist(HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", "success");
+		try {
+			resultMap.put("list", reptileService.getcheckedlist());
+		} catch (Exception e) {
+			resultMap.put("status", "someerror");
+			resultMap.put("error", e);
+			Console.log(e);
+		}
 		JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resultMap);
 		return jsonObject;
 	}

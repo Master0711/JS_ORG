@@ -9,4 +9,6 @@ public interface EventsGalleryMapper {
 	public List<EventsGallery> getAllEvents(Boolean is_write);
 	public void perfect(String activityContent,String headFigure,String picture_list,
 			String author_id,String time,Boolean is_write);
+	public EventsGallery getEventsGallery(String activityId);
+	public void uploadimage(String activityId,String headFigure,String picture_list);
 }

@@ -36,5 +36,10 @@ public class ActivityServiceImpl implements ActivityService{
 	public void updatestatus(String activityId, int status) {
 		activityMapper.updatestatus(activityId, status);
 	}
+	@Override
+	public Activity getActivity(String activityId) {
+		// TODO Auto-generated method stub
+		return activityMapper.getActivity(activityId);
+	}
 	
 }

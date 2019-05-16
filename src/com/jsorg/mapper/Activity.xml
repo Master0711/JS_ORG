@@ -21,5 +21,8 @@
 	    <update id="updatestatus" parameterType="string" >
 	        update t_activity set status = #{1} where activityId = #{0}
 	    </update>
+	    <select id="getActivity" parameterType="string" resultType="Activity">
+	        select * from   t_activity  where activityId = #{0}
+	    </select>
 	</mapper>
 

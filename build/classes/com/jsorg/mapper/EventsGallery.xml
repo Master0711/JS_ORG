@@ -14,5 +14,11 @@
 	        update t_eventsGallery set activityContent = #{0} , headFigure = #{1} 
 	        , picture_list = #{2} , author_id = #{3} , time = #{4} , is_write = #{5} 
 	    </update>
+	    <select id="getEventsGallery" parameterType="string" resultType="EventsGallery">
+	        select * from   t_eventsGallery  where activityId = #{0}    
+	    </select>
+	    <update id="uploadimage" parameterType="string" >
+	        update t_eventsGallery set headFigure = #{1} , picture_list = #{2} where activityId = #{0}
+	    </update>
 	</mapper>
 

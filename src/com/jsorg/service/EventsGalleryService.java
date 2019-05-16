@@ -9,4 +9,7 @@ public interface EventsGalleryService {
 	List<EventsGallery> getAllEvents(Boolean is_write);
 	void perfect(String activityContent,String headFigure,String picture_list,
 			String author_id,String time,Boolean is_write);
+	EventsGallery getEventsGallery(String activityId);
+	void uploadimage(String activityId,String headFigure,String picture_list);
+	
 }

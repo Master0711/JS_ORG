@@ -369,6 +369,9 @@ public class UserController {
 	public Object getmemberInformation(HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("status", "success");
+		HttpSession session = request.getSession();
+		Console.log("sessionid is:"+session.getId());
+		Console.log(session.getAttribute("hhh"));
 		User user = (User) redisUtil.get("user");
 		try {
 			if (user != null) {
